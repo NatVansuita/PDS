@@ -26,12 +26,13 @@ import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
 
 public class Supermercado extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
+	private JTable tableListaProdutos;
 
 	/**
 	 * Launch the application.
@@ -58,7 +59,7 @@ public class Supermercado extends JFrame {
 		setFont(new Font("SansSerif", Font.BOLD, 13));
 		setBackground(new Color(0, 0, 0));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 793, 487);
+		setBounds(100, 100, 793, 747);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,11 +69,12 @@ public class Supermercado extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBackground(new Color(240, 240, 240));
-		panel.setBounds(10, 11, 757, 426);
+		panel.setBackground(new Color(245, 245, 245));
+		panel.setBounds(10, 11, 757, 686);
 		contentPane.add(panel);
 		
 		JLabel lblMercadinho = new JLabel("MERCADINHO");
+		lblMercadinho.setBackground(new Color(245, 245, 245));
 		lblMercadinho.setBounds(94, 11, 569, 54);
 		panel.add(lblMercadinho);
 		lblMercadinho.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,29 +97,6 @@ public class Supermercado extends JFrame {
 		btnCarrinho.setBounds(673, 11, 74, 34);
 		panel.add(btnCarrinho);
 		
-		table = new JTable();
-		table.setForeground(new Color(24, 0, 0));
-		table.setFont(new Font("SansSerif", Font.BOLD, 15));
-		table.setModel(new DefaultTableModel(
-		    new Object[][] {
-		    },
-		    new String[] {
-		        "NOME", "TIPO", "VALOR", "QUANT. DE UNI. DISPONÍVEIS"
-		    }
-		) {
-		    boolean[] columnEditables = new boolean[] {
-		        true, true, true, true
-		    };
-		    public boolean isCellEditable(int row, int column) {
-		        return columnEditables[column];
-		    }
-		});
-
-		// 🔑 Coloca a tabela dentro de um JScrollPane
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 76, 737, 105);
-		panel.add(scrollPane);
-		
 		JButton btnSair = new JButton();
 		btnSair.setBackground(new Color(255, 255, 255));
 		btnSair.setToolTipText("Sair do sistema");
@@ -133,53 +112,40 @@ public class Supermercado extends JFrame {
 		btnSair.setBounds(10, 11, 74, 34);
 		panel.add(btnSair);
 		
-		JLabel lblQuantidade = new JLabel("Unidades:");
-		lblQuantidade.setForeground(new Color(23, 0, 0));
-		lblQuantidade.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblQuantidade.setBounds(367, 203, 119, 33);
-		panel.add(lblQuantidade);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(240, 240, 240));
+		panel_1.setBounds(10, 84, 737, 272);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JLabel lblnome = new JLabel("Nome do produto:");
-		lblnome.setForeground(new Color(23, 0, 0));
-		lblnome.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblnome.setBounds(20, 203, 193, 33);
-		panel.add(lblnome);
+		tableListaProdutos = new JTable();
+		tableListaProdutos.setForeground(new Color(24, 0, 0));
+		tableListaProdutos.setFont(new Font("SansSerif", Font.BOLD, 15));
+		tableListaProdutos.setModel(new DefaultTableModel(
+		    new Object[][] {
+		    },
+		    new String[] {
+		    		"NOME", "TIPO", "VALOR", "QUANT. DE UNI. DISPONÍVEIS"
+		    }
+		) {
+		    boolean[] columnEditables = new boolean[] {
+		    		true, true, true, true
+		    };
+		    public boolean isCellEditable(int row, int column) {
+		        return columnEditables[column];
+		    }
+		});
 		
-		JLabel lblNewLabel = new JLabel("Tipo de produto:");
-		lblNewLabel.setForeground(new Color(23, 0, 0));
-		lblNewLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblNewLabel.setBounds(20, 279, 193, 33);
-		panel.add(lblNewLabel);
-		
-		JLabel lblValor = new JLabel("Valor:");
-		lblValor.setForeground(new Color(23, 0, 0));
-		lblValor.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblValor.setBounds(369, 279, 117, 33);
-		panel.add(lblValor);
-		
-		JLabel lblnome_1 = new JLabel("");
-		lblnome_1.setForeground(new Color(23, 0, 0));
-		lblnome_1.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		lblnome_1.setBackground(new Color(255, 255, 255));
-		lblnome_1.setBounds(20, 235, 271, 33);
-		panel.add(lblnome_1);
-		
-		JLabel lblnome_1_1 = new JLabel("");
-		lblnome_1_1.setForeground(new Color(23, 0, 0));
-		lblnome_1_1.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		lblnome_1_1.setBounds(20, 311, 271, 33);
-		panel.add(lblnome_1_1);
-		
-		JLabel lblnome_1_2 = new JLabel("");
-		lblnome_1_2.setForeground(new Color(23, 0, 0));
-		lblnome_1_2.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		lblnome_1_2.setBounds(367, 235, 146, 33);
-		panel.add(lblnome_1_2);
-		
-		JLabel lblnome_1_1_1 = new JLabel("");
-		lblnome_1_1_1.setForeground(new Color(23, 0, 0));
-		lblnome_1_1_1.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		lblnome_1_1_1.setBounds(367, 311, 146, 33);
-		panel.add(lblnome_1_1_1);
+				// 🔑 Coloca a tabela dentro de um JScrollPane
+				JScrollPane scrollPane = new JScrollPane(tableListaProdutos);
+				scrollPane.setBounds(10, 52, 717, 209);
+				panel_1.add(scrollPane);
+				
+				JLabel tituloTabela = new JLabel("LISTA DE PRODUTOS", SwingConstants.CENTER);
+				tituloTabela.setBackground(new Color(240, 240, 240));
+				tituloTabela.setBounds(10, 11, 717, 30);
+				tituloTabela.setForeground(new Color(24, 0, 0));
+				panel_1.add(tituloTabela);
+				tituloTabela.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 18));
 	}
 }
