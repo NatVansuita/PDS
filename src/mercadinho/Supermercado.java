@@ -22,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.AbstractListModel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -51,7 +53,7 @@ public class Supermercado extends JFrame {
 	 * Create the frame.
 	 */
 	public Supermercado() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL\\Downloads\\110f5a81-8864-4bc1-aa8d-e19c47dc577a-removebg-preview.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL\\Downloads\\mercadinhop.png"));
 		setTitle("Supermercado");
 		setFont(new Font("SansSerif", Font.BOLD, 13));
 		setBackground(new Color(0, 0, 0));
@@ -94,24 +96,27 @@ public class Supermercado extends JFrame {
 		panel.add(btnCarrinho);
 		
 		table = new JTable();
-		table.setForeground(new Color(0, 0, 0));
+		table.setForeground(new Color(24, 0, 0));
 		table.setFont(new Font("SansSerif", Font.BOLD, 15));
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"TIPO", "NOME"
-			}
+		    new Object[][] {
+		    },
+		    new String[] {
+		        "NOME", "TIPO", "VALOR", "QUANT. DE UNI. DISPONÍVEIS"
+		    }
 		) {
-			boolean[] columnEditables = new boolean[] {
-				false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
+		    boolean[] columnEditables = new boolean[] {
+		        true, true, true, true
+		    };
+		    public boolean isCellEditable(int row, int column) {
+		        return columnEditables[column];
+		    }
 		});
-		table.setBounds(10, 76, 364, 116);
-		panel.add(table);
+
+		// 🔑 Coloca a tabela dentro de um JScrollPane
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(10, 76, 737, 105);
+		panel.add(scrollPane);
 		
 		JButton btnSair = new JButton();
 		btnSair.setBackground(new Color(255, 255, 255));
