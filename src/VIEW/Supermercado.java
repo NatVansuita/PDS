@@ -1,4 +1,4 @@
-package mercadinho;
+package VIEW;
 
 import java.awt.EventQueue;
 
@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
+import javax.swing.UIManager;
 
 public class Supermercado extends JFrame {
 
@@ -59,7 +60,8 @@ public class Supermercado extends JFrame {
 		setFont(new Font("SansSerif", Font.BOLD, 13));
 		setBackground(new Color(0, 0, 0));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 793, 747);
+		setBounds(100, 100, 974, 704);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,12 +72,12 @@ public class Supermercado extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(245, 245, 245));
-		panel.setBounds(10, 11, 757, 686);
+		panel.setBounds(10, 11, 938, 650);
 		contentPane.add(panel);
 		
 		JLabel lblMercadinho = new JLabel("MERCADINHO");
 		lblMercadinho.setBackground(new Color(245, 245, 245));
-		lblMercadinho.setBounds(94, 11, 569, 54);
+		lblMercadinho.setBounds(94, 11, 750, 54);
 		panel.add(lblMercadinho);
 		lblMercadinho.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMercadinho.setForeground(new Color(23, 0, 0));
@@ -94,7 +96,7 @@ public class Supermercado extends JFrame {
 		ImageIcon scaledIcon = new ImageIcon(img);
 		btnCarrinho.setIcon(scaledIcon);
 
-		btnCarrinho.setBounds(673, 11, 74, 34);
+		btnCarrinho.setBounds(854, 11, 74, 34);
 		panel.add(btnCarrinho);
 		
 		JButton btnSair = new JButton();
@@ -147,5 +149,63 @@ public class Supermercado extends JFrame {
 				tituloTabela.setForeground(new Color(24, 0, 0));
 				panel_1.add(tituloTabela);
 				tituloTabela.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 18));
+				
+				JPanel panel_1_1 = new JPanel();
+				panel_1_1.setLayout(null);
+				panel_1_1.setBackground(UIManager.getColor("Button.background"));
+				panel_1_1.setBounds(11, 368, 737, 272);
+				panel.add(panel_1_1);
+				
+				JTable TableCarrinho = new JTable();
+				TableCarrinho.setForeground(new Color(24, 0, 0));
+				TableCarrinho.setFont(new Font("SansSerif", Font.BOLD, 15));
+				TableCarrinho.setModel(new DefaultTableModel(
+				    new Object[][] {
+				    },
+				    new String[] {
+				    		"NOME", "TIPO", "VALOR", "UNIDADES"
+				    }
+				) {
+				    boolean[] columnEditables = new boolean[] {
+				    		true, true, true, true
+				    };
+				    public boolean isCellEditable(int row, int column) {
+				        return columnEditables[column];
+				    }
+				});
+				
+				JScrollPane scrollPane_1 = new JScrollPane(TableCarrinho);
+				scrollPane_1.setBounds(10, 52, 717, 209);
+				panel_1_1.add(scrollPane_1);
+				
+				JLabel tituloTabela_1 = new JLabel("Carrinho de Compras", SwingConstants.CENTER);
+				tituloTabela_1.setForeground(new Color(24, 0, 0));
+				tituloTabela_1.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 18));
+				tituloTabela_1.setBackground(UIManager.getColor("Button.background"));
+				tituloTabela_1.setBounds(10, 11, 717, 30);
+				panel_1_1.add(tituloTabela_1);
+				
+				JPanel panel_2 = new JPanel();
+				panel_2.setBounds(757, 84, 171, 556);
+				panel.add(panel_2);
+				panel_2.setLayout(null);
+				
+				JButton btnAdcionar = new JButton("Adicionar itens");
+				btnAdcionar.setForeground(new Color(23, 0, 0));
+				btnAdcionar.setFont(new Font("SansSerif", Font.BOLD, 11));
+				btnAdcionar.setBounds(10, 177, 151, 59);
+				panel_2.add(btnAdcionar);
+				
+				JButton btnRemoverItens = new JButton("Remover itens");
+				btnRemoverItens.setForeground(new Color(23, 0, 0));
+				btnRemoverItens.setFont(new Font("SansSerif", Font.BOLD, 11));
+				btnRemoverItens.setBounds(10, 253, 151, 59);
+				panel_2.add(btnRemoverItens);
+				
+				JButton btnFinalizar = new JButton("FINALIZAR");
+				btnFinalizar.setForeground(new Color(23, 0, 0));
+				btnFinalizar.setFont(new Font("SansSerif", Font.BOLD, 11));
+				btnFinalizar.setBounds(10, 331, 151, 59);
+				panel_2.add(btnFinalizar);
 	}
 }

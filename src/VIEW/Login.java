@@ -1,4 +1,4 @@
-package mercadinho;
+package VIEW;
 
 import java.awt.EventQueue;
 
@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Cadastro extends JFrame {
+public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -30,7 +30,7 @@ public class Cadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cadastro frame = new Cadastro();
+					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class Cadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cadastro() {
+	public Login() {
 		setFont(new Font("SansSerif", Font.BOLD, 13));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL\\Downloads\\110f5a81-8864-4bc1-aa8d-e19c47dc577a-removebg-preview.png"));
 		setTitle("Mercadinho");
@@ -67,7 +67,7 @@ public class Cadastro extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblTitulo = new JLabel("CADASTRO");
+		JLabel lblTitulo = new JLabel("LOGIN");
 		lblTitulo.setForeground(new Color(23, 0, 0));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 50));
@@ -129,18 +129,32 @@ public class Cadastro extends JFrame {
 		rdbtnCliente.setBounds(269, 129, 144, 28);
 		panel_2.add(rdbtnCliente);
 		
+		JButton btnNewButton = new JButton("LOGAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaADM cadastro =  new TelaADM();
+				Login.this.setVisible(false);
+				cadastro.setVisible(true);
+			}
+		});
+		btnNewButton.setForeground(new Color(23, 0, 0));
+		btnNewButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+		btnNewButton.setBackground(new Color(255, 255, 255));
+		btnNewButton.setBounds(10, 173, 222, 28);
+		panel_2.add(btnNewButton);
+		
 		JButton btnNewButton_1 = new JButton("CADASTRAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				Cadastro.this.setVisible(false);
-				login.setVisible(true);
+				Cadastro cadastro = new Cadastro();
+				Login.this.setVisible(false);
+				cadastro.setVisible(true);
 			}
 		});
 		btnNewButton_1.setForeground(new Color(23, 0, 0));
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.setFont(new Font("SansSerif", Font.BOLD, 20));
-		btnNewButton_1.setBounds(10, 173, 424, 27);
+		btnNewButton_1.setBounds(242, 173, 192, 27);
 		panel_2.add(btnNewButton_1);
 	}
 }

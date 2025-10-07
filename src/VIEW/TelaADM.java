@@ -1,4 +1,4 @@
-package mercadinho;
+package VIEW;
 
 import java.awt.CardLayout;
 import java.awt.Color;
