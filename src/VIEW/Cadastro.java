@@ -5,14 +5,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import CONTROLLER.UsuarioContole;
+
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,6 +28,7 @@ public class Cadastro extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNome;
+	private JRadioButton rdbtnADM;
 
 	/**
 	 * Launch the application.
@@ -86,6 +93,8 @@ public class Cadastro extends JFrame {
 		lblNome.setBounds(10, 11, 89, 43);
 		panel_2.add(lblNome);
 		
+		
+		//==============================NOME==============================
 		textFieldNome = new JTextField();
 		textFieldNome.setToolTipText("Insira o seu nome completo!");
 		textFieldNome.setForeground(new Color(64, 0, 0));
@@ -100,14 +109,28 @@ public class Cadastro extends JFrame {
 		lblCPF.setBounds(10, 65, 89, 43);
 		panel_2.add(lblCPF);
 		
-		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
+		
+		//==============================CPF==============================
+		MaskFormatter mascaraCPF = null;
+		try {
+			mascaraCPF = new MaskFormatter("###.###.###-##");
+			mascaraCPF.setPlaceholderCharacter('_');
+		}
+		
+		catch(java.text.ParseException e){
+			e.printStackTrace();
+		};
+		
+		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField(mascaraCPF);
 		formattedTextFieldCPF.setToolTipText("Insira o seu CPF completo!");
 		formattedTextFieldCPF.setForeground(new Color(64, 0, 0));
 		formattedTextFieldCPF.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		formattedTextFieldCPF.setBounds(94, 75, 340, 28);
 		panel_2.add(formattedTextFieldCPF);
 		
-		JRadioButton rdbtnADM = new JRadioButton("ADM");
+		
+		//==============================JradioButton==============================
+		rdbtnADM = new JRadioButton("ADM");
 		rdbtnADM.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnADM.setForeground(new Color(23, 0, 0));
 		rdbtnADM.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -129,12 +152,26 @@ public class Cadastro extends JFrame {
 		rdbtnCliente.setBounds(269, 129, 144, 28);
 		panel_2.add(rdbtnCliente);
 		
+		//==============================CRIAÇÃO DO GRUPO==============================
+		ButtonGroup grupoTipoUsuario = new ButtonGroup();
+		grupoTipoUsuario.add(rdbtnCliente);
+		grupoTipoUsuario.add(rdbtnADM);
+		
 		JButton btnNewButton_1 = new JButton("CADASTRAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UsuarioContole contole = new UsuarioContole();
+				
+				String nome = textFieldNome.getText();
+				String cpf = formattedTextFieldCPF.getText();
+				boolean tipoUsuario = rdbtnADM.isSelected();
+				String mensagem = contole.cadastrarNovoUsuario(nome, cpf, tipoUsuario);
+				JOptionPane.showMessageDialog(Cadastro.this, mensagem);
+				
 				Login login = new Login();
-				Cadastro.this.setVisible(false);
 				login.setVisible(true);
+				Cadastro.this.setVisible(false);
+				
 			}
 		});
 		btnNewButton_1.setForeground(new Color(23, 0, 0));

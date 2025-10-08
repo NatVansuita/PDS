@@ -5,14 +5,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import CONTROLLER.LoginController;
+import MODEL.Usuario;
+
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -86,6 +93,7 @@ public class Login extends JFrame {
 		lblNome.setBounds(10, 11, 89, 43);
 		panel_2.add(lblNome);
 		
+		//=================NOME=================
 		textFieldNome = new JTextField();
 		textFieldNome.setToolTipText("Insira o seu nome completo!");
 		textFieldNome.setForeground(new Color(64, 0, 0));
@@ -100,13 +108,26 @@ public class Login extends JFrame {
 		lblCPF.setBounds(10, 65, 89, 43);
 		panel_2.add(lblCPF);
 		
-		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
+		//=================CPF=================
+		MaskFormatter mascaraCPF = null;
+		try {
+			mascaraCPF = new MaskFormatter("###.###.###-##");
+			mascaraCPF.setPlaceholderCharacter('_');
+		}
+		
+		catch(java.text.ParseException e){
+			e.printStackTrace();
+		};
+		
+		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField(mascaraCPF);
 		formattedTextFieldCPF.setToolTipText("Insira o seu CPF completo!");
 		formattedTextFieldCPF.setForeground(new Color(64, 0, 0));
 		formattedTextFieldCPF.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		formattedTextFieldCPF.setBounds(94, 75, 340, 28);
 		panel_2.add(formattedTextFieldCPF);
 		
+		
+		//=================RDB=================
 		JRadioButton rdbtnADM = new JRadioButton("ADM");
 		rdbtnADM.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnADM.setForeground(new Color(23, 0, 0));
@@ -129,14 +150,53 @@ public class Login extends JFrame {
 		rdbtnCliente.setBounds(269, 129, 144, 28);
 		panel_2.add(rdbtnCliente);
 		
+		//==============================CRIAÇÃO DO GRUPO==============================
+		ButtonGroup grupoTipoUsuario = new ButtonGroup();
+			grupoTipoUsuario.add(rdbtnCliente);
+			grupoTipoUsuario.add(rdbtnADM);
+		
 		JButton btnNewButton = new JButton("LOGAR");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaADM cadastro =  new TelaADM();
-				Login.this.setVisible(false);
-				cadastro.setVisible(true);
-			}
+				String nome = textFieldNome.getText();
+				String cpf = formattedTextFieldCPF.getText();
+				
+				LoginController controller = new LoginController();
+		        Usuario usuarioLogado = controller.autenticar(nome, cpf);
+		        
+		        System.out.println("Valor lido do banco para tipo de usuário: " + usuarioLogado.getTipocliente());
+		        if (usuarioLogado != null) {
+		            // Sucesso no Login
+		            
+		            // Verifica a permissão para exibir a tela correta (Requisito 19, 23)
+		            if (usuarioLogado.getTipocliente()) {
+		                // É ADM (Requisito 19)
+		                // Exibe a TelaADM
+		                TelaADM telaAdm = new TelaADM(); // Você precisará criar esta classe
+		                telaAdm.setVisible(true);
+		                Login.this.setVisible(false);
+		                JOptionPane.showMessageDialog(null, "BEM VINDO ADM");
+		            } 
+		            
+		            else {
+		                // É Cliente (Requisito 23)
+		                // Exibe a Tela de Compra (Supermercado)
+		                Supermercado telaCompra = new Supermercado(); // Você precisará criar esta classe
+		                telaCompra.setVisible(true);
+		                Login.this.setVisible(false);
+		                JOptionPane.showMessageDialog(null, "BEM VINDO CLIENTE");
+		            }
+		            
+		        } 
+		        
+		        else {
+		            // Falha no Login (Usuário ou CPF incorretos)
+		            // Exibir alerta (Requisito 34)
+		            JOptionPane.showMessageDialog(null, "Nome ou CPF inválidos. Tente novamente ou cadastre-se.");
+		        }
+		    }
 		});
+		
 		btnNewButton.setForeground(new Color(23, 0, 0));
 		btnNewButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		btnNewButton.setBackground(new Color(255, 255, 255));
