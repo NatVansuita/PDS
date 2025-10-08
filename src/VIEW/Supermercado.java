@@ -24,6 +24,12 @@ import javax.swing.AbstractListModel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import CONTROLLER.ProdutoBBD;
+import CONTROLLER.ProdutoControle; // Importar o Controller
+import MODEL.Produto; // Importar a classe Produto
+import java.util.List; // Para usar listas
+import javax.swing.table.DefaultTableModel; 
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
@@ -123,7 +129,7 @@ public class Supermercado extends JFrame {
 		tableListaProdutos = new JTable();
 		tableListaProdutos.setForeground(new Color(24, 0, 0));
 		tableListaProdutos.setFont(new Font("SansSerif", Font.BOLD, 15));
-		tableListaProdutos.setModel(new DefaultTableModel(
+		tableListaProdutos.setModel(new DefaultTableModel(	
 		    new Object[][] {
 		    },
 		    new String[] {
@@ -137,6 +143,8 @@ public class Supermercado extends JFrame {
 		        return columnEditables[column];
 		    }
 		});
+		
+		
 		
 				// 🔑 Coloca a tabela dentro de um JScrollPane
 				JScrollPane scrollPane = new JScrollPane(tableListaProdutos);
@@ -207,5 +215,44 @@ public class Supermercado extends JFrame {
 				btnFinalizar.setFont(new Font("SansSerif", Font.BOLD, 11));
 				btnFinalizar.setBounds(10, 331, 151, 59);
 				panel_2.add(btnFinalizar);
+				
+				
 	}
+	
+private void popularTabela() {
+	    
+	    // 1. Obtém o modelo atual da sua tabela
+	    DefaultTableModel modelo = (DefaultTableModel) tableListaProdutos.getModel();
+	    
+	    // 2. Limpa todas as linhas existentes
+	    modelo.setRowCount(0); 
+
+	    // 3. CORREÇÃO MVC: Chama o Controller (ProdutoControle) e não o DAO (ProdutoBBD).
+	    ProdutoBBD controller = new ProdutoBBD(); 
+	    
+	    // 4. Chama o método do Controller que busca a lista completa.
+	    List<Produto> listarTodosProdutos = controller.listarTodosProdutos(); 
+
+	    if (listarTodosProdutos.isEmpty()) {
+	        System.out.println("Nenhum produto cadastrado no banco de dados.");
+	        return; 
+	    }
+
+	    // 5. Itera sobre a lista e adiciona cada item como uma nova linha
+	    for (Produto produto : listarTodosProdutos) {
+	        
+	        // Usando os getters que você utilizou
+	        modelo.addRow(new Object[] {
+	            produto.getNomeProduto(),
+	            produto.getTipo(),
+	            produto.getValor(),
+	            produto.getQuantidade()
+	        });
+	    }
+	    
+	    // CORREÇÃO: A linha "popularTabela();" (que causava o loop infinito) foi removida.
+	    
+	    
+	}
+
 }

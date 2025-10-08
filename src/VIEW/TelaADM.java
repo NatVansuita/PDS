@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.Insets;
 import javax.swing.JMenu;
 import javax.swing.ImageIcon;
@@ -22,6 +24,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeListener;
+
+import CONTROLLER.ProdutoControle;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.JTextPane;
 import javax.swing.JComboBox;
@@ -41,6 +46,10 @@ public class TelaADM extends JFrame {
 	private JTextField textFieldValorAtualizado;
 	private JTextField textFieldUnidadesCadastro;
 	private JTextField textFieldUnidadesEDIT;
+	private JComboBox comboBoxTipo = new JComboBox();
+	private JLabel lblQuantidade = new JLabel();
+	
+	
 
 	/**
 	 * Launch the application.
@@ -104,6 +113,7 @@ public class TelaADM extends JFrame {
 		lblnome.setBounds(10, 67, 216, 33);
 		panel.add(lblnome);
 		
+		//============================================================================CADASTRO============================================================================
 		textFieldNomeProduto = new JTextField();
 		textFieldNomeProduto.setToolTipText("Escreva o nome do Produto a ser cadastrado!");
 		textFieldNomeProduto.setForeground(new Color(64, 0, 0));
@@ -118,7 +128,8 @@ public class TelaADM extends JFrame {
 		lblNewLabel.setBounds(10, 143, 216, 33);
 		panel.add(lblNewLabel);
 		
-		JComboBox comboBoxTipo = new JComboBox();
+		//=========================TIPO=========================
+		comboBoxTipo = new JComboBox();
 		comboBoxTipo.setBackground(new Color(255, 255, 255));
 		comboBoxTipo.setToolTipText("Escolha o tipo do produto!");
 		comboBoxTipo.setForeground(new Color(64, 0, 0));
@@ -127,7 +138,36 @@ public class TelaADM extends JFrame {
 		comboBoxTipo.setBounds(10, 177, 216, 33);
 		panel.add(comboBoxTipo);
 		
+		//=========================BOTÃO CASTRAR=========================
 		JButton btnNewButton_1 = new JButton("CADASTRAR");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				 String nome = textFieldNomeProduto.getText();
+			        String valor = textField.getText(); // (Preço/Valor)
+			        
+			        // CORREÇÃO: Usar o JTextField que o usuário preenche
+			        String quantidade = textFieldUnidadesCadastro.getText(); 
+			        
+			        String tipo = (String) comboBoxTipo.getSelectedItem();
+			        
+			        ProdutoControle controle = new ProdutoControle();
+			        
+			        // Chama o Controller
+			        String mensagem = controle.cadastrarNovoProduto(nome, valor, quantidade, tipo);
+			        
+			        JOptionPane.showMessageDialog(TelaADM.this, mensagem); 
+			        
+			        // 4. Opcional: Limpa os campos após o cadastro com sucesso
+			        if (mensagem.contains("sucesso")) {
+			            textFieldNomeProduto.setText("");
+			            textField.setText("");
+			            textFieldUnidadesCadastro.setText("");
+			            comboBoxTipo.setSelectedIndex(0); // Correção para o ComboBox: use setSelectedIndex(0)
+			        }
+				
+			}
+		});
 		btnNewButton_1.setToolTipText("Cadastre o produto");
 		btnNewButton_1.setForeground(new Color(23, 0, 0));
 		btnNewButton_1.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -141,6 +181,7 @@ public class TelaADM extends JFrame {
 		lblValor.setBounds(233, 143, 216, 33);
 		panel.add(lblValor);
 		
+		//=========================VALOR=========================
 		textField = new JTextField();
 		textField.setToolTipText("Escreva o nome do Produto a ser cadastrado!");
 		textField.setForeground(new Color(64, 0, 0));
@@ -155,6 +196,7 @@ public class TelaADM extends JFrame {
 		lblQuantidade.setBounds(231, 67, 216, 33);
 		panel.add(lblQuantidade);
 		
+		//=========================QUANIDADES=========================
 		textFieldUnidadesCadastro = new JTextField();
 		textFieldUnidadesCadastro.setToolTipText("Escreva a quantidade de unidades do produto!");
 		textFieldUnidadesCadastro.setForeground(new Color(64, 0, 0));
@@ -201,6 +243,7 @@ public class TelaADM extends JFrame {
 		btnNewButton_1_1.setBounds(10, 234, 437, 27);
 		panel_1.add(btnNewButton_1_1);
 		
+		//============================================================================REMOÇÃO============================================================================
 		JComboBox comboBoxNomeRemocao = new JComboBox();
 		comboBoxNomeRemocao.setToolTipText("Selecione o nome do produto a ser removido!");
 		comboBoxNomeRemocao.setForeground(new Color(64, 0, 0));
@@ -249,6 +292,7 @@ public class TelaADM extends JFrame {
 		btnNewButton_1_2.setBounds(10, 234, 437, 27);
 		panel_2.add(btnNewButton_1_2);
 		
+		//============================================================================VISUALIZAÇÃO============================================================================
 		JComboBox comboBoxNomeVisualizar = new JComboBox();
 		comboBoxNomeVisualizar.setToolTipText("Selecione o nome do produto que deseja visualizar!");
 		comboBoxNomeVisualizar.setForeground(new Color(64, 0, 0));
@@ -318,6 +362,7 @@ public class TelaADM extends JFrame {
 		textFieldValorAtualizado.setBounds(233, 177, 216, 33);
 		panel_3.add(textFieldValorAtualizado);
 		
+		//============================================================================EDITAR============================================================================
 		JComboBox comboBoxNomeEditar = new JComboBox();
 		comboBoxNomeEditar.setToolTipText("Selecione o nome do produto que deseja Editar as Informações!");
 		comboBoxNomeEditar.setForeground(new Color(64, 0, 0));
@@ -350,7 +395,15 @@ public class TelaADM extends JFrame {
 		panel_2_1.setBounds(10, 11, 459, 292);
 		panelSaida.add(panel_2_1);
 		
+		//============================================================================SAIR============================================================================
 		JButton btnMudarParaCliente = new JButton("Mudar para Cliente");
+		btnMudarParaCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Supermercado telaCompra = new Supermercado(); // Você precisará criar esta classe
+                telaCompra.setVisible(true);
+                TelaADM.this.setVisible(false);
+			}
+		});
 		btnMudarParaCliente.setToolTipText("Ir para a área do cliente");
 		btnMudarParaCliente.setForeground(new Color(23, 0, 0));
 		btnMudarParaCliente.setFont(new Font("SansSerif", Font.BOLD, 20));
