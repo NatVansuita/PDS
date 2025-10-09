@@ -20,12 +20,15 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeListener;
 
+import CONTROLLER.ProdutoBBD;
 import CONTROLLER.ProdutoControle;
+import MODEL.Produto;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.JTextPane;
@@ -33,6 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.BorderLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 
 public class TelaADM extends JFrame {
 
@@ -43,12 +47,15 @@ public class TelaADM extends JFrame {
 	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	private JTextField textFieldNomeProduto;
 	private JTextField textField;
-	private JTextField textFieldValorAtualizado;
+	private JTextField textFieldValorEDit;
 	private JTextField textFieldUnidadesCadastro;
 	private JTextField textFieldUnidadesEDIT;
 	private JComboBox comboBoxTipo = new JComboBox();
 	private JLabel lblQuantidade = new JLabel();
-	
+	private JComboBox comboBoxNomeRemocao = new JComboBox();
+	private JComboBox comboBoxNomeVisualizar = new JComboBox();
+	private JComboBox comboBoxNomeEditar = new JComboBox();
+	private JComboBox comboBoxTipoEdit = new JComboBox();
 	
 
 	/**
@@ -151,6 +158,11 @@ public class TelaADM extends JFrame {
 			        
 			        String tipo = (String) comboBoxTipo.getSelectedItem();
 			        
+			        if (tipo == null || tipo.startsWith("--- Selecione") || tipo.trim().isEmpty()) {
+			            JOptionPane.showMessageDialog(TelaADM.this, "O campo 'Tipo de Produto' não pode ser vazio.");
+			            return; // Para a execução
+			        }
+			        
 			        ProdutoControle controle = new ProdutoControle();
 			        
 			        // Chama o Controller
@@ -226,16 +238,42 @@ public class TelaADM extends JFrame {
 		JLabel lblnome_1 = new JLabel("Nome do produto:");
 		lblnome_1.setForeground(new Color(23, 0, 0));
 		lblnome_1.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblnome_1.setBounds(10, 67, 439, 33);
+		lblnome_1.setBounds(8, 102, 439, 33);
 		panel_1.add(lblnome_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("Tipo de produto:");
-		lblNewLabel_1.setForeground(new Color(23, 0, 0));
-		lblNewLabel_1.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(10, 143, 439, 33);
-		panel_1.add(lblNewLabel_1);
-		
 		JButton btnNewButton_1_1 = new JButton("REMOVER");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// 1. Pega o item selecionado no ComboBox de Remoção
+				String produtoSelecionado = (String) comboBoxNomeRemocao.getSelectedItem();
+
+				// 2. Valida se é um produto real e não o item inicial
+				if (produtoSelecionado == null || produtoSelecionado.startsWith("--- Selecione")) {
+				    JOptionPane.showMessageDialog(null, "Selecione um produto válido para remover.");
+				    return;
+				}
+
+				// 3. Opcional: Pedir confirmação
+				int confirmacao = JOptionPane.showConfirmDialog(TelaADM.this, "Tem certeza que deseja remover o produto: " + produtoSelecionado + "?", 
+				    "Confirmação de Remoção", JOptionPane.YES_NO_OPTION);
+						
+
+				if (confirmacao == JOptionPane.YES_OPTION) {
+				    
+				    // 4. Cria o Controller e chama o método de remoção
+				    ProdutoControle controller = new ProdutoControle();
+				    String resultado = controller.removerProdutoPorNome(produtoSelecionado);
+				    
+				    // 5. Exibe o resultado e ATUALIZA O COMBOBOX!
+				    JOptionPane.showMessageDialog(TelaADM.this, resultado);
+				    
+				    // 🔑 CHAVE: Atualizar o ComboBox para refletir a remoção!
+				    popularComboBoxesProdutos(); 
+				    // ^^^ Este método que você já criou precisa ser chamado novamente.
+				}
+			}
+		});
 		btnNewButton_1_1.setToolTipText("Remova o produto");
 		btnNewButton_1_1.setForeground(new Color(23, 0, 0));
 		btnNewButton_1_1.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -244,21 +282,13 @@ public class TelaADM extends JFrame {
 		panel_1.add(btnNewButton_1_1);
 		
 		//============================================================================REMOÇÃO============================================================================
-		JComboBox comboBoxNomeRemocao = new JComboBox();
+		comboBoxNomeRemocao = new JComboBox();
 		comboBoxNomeRemocao.setToolTipText("Selecione o nome do produto a ser removido!");
 		comboBoxNomeRemocao.setForeground(new Color(64, 0, 0));
 		comboBoxNomeRemocao.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		comboBoxNomeRemocao.setBackground(Color.WHITE);
-		comboBoxNomeRemocao.setBounds(10, 99, 439, 33);
+		comboBoxNomeRemocao.setBounds(8, 134, 439, 33);
 		panel_1.add(comboBoxNomeRemocao);
-		
-		JComboBox comboBoxTipoRemocao = new JComboBox();
-		comboBoxTipoRemocao.setToolTipText("Selecione o tipo do produto a ser removido!");
-		comboBoxTipoRemocao.setForeground(new Color(64, 0, 0));
-		comboBoxTipoRemocao.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		comboBoxTipoRemocao.setBackground(Color.WHITE);
-		comboBoxTipoRemocao.setBounds(10, 177, 439, 33);
-		panel_1.add(comboBoxTipoRemocao);
 		
 		JPanel panelVisualizar = new JPanel();
 		panelVisualizar.setBackground(new Color(255, 255, 255));
@@ -281,25 +311,64 @@ public class TelaADM extends JFrame {
 		JLabel lblnome_2 = new JLabel("Nome do produto:");
 		lblnome_2.setForeground(new Color(23, 0, 0));
 		lblnome_2.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblnome_2.setBounds(10, 98, 439, 33);
+		lblnome_2.setBounds(10, 121, 439, 33);
 		panel_2.add(lblnome_2);
 		
-		JButton btnNewButton_1_2 = new JButton("VIZUALIZAR");
-		btnNewButton_1_2.setToolTipText("Visualize o produto");
-		btnNewButton_1_2.setForeground(new Color(23, 0, 0));
-		btnNewButton_1_2.setFont(new Font("SansSerif", Font.BOLD, 20));
-		btnNewButton_1_2.setBackground(Color.WHITE);
-		btnNewButton_1_2.setBounds(10, 234, 437, 27);
-		panel_2.add(btnNewButton_1_2);
-		
 		//============================================================================VISUALIZAÇÃO============================================================================
-		JComboBox comboBoxNomeVisualizar = new JComboBox();
+		comboBoxNomeVisualizar = new JComboBox();
 		comboBoxNomeVisualizar.setToolTipText("Selecione o nome do produto que deseja visualizar!");
 		comboBoxNomeVisualizar.setForeground(new Color(64, 0, 0));
 		comboBoxNomeVisualizar.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		comboBoxNomeVisualizar.setBackground(Color.WHITE);
-		comboBoxNomeVisualizar.setBounds(10, 132, 439, 33);
+		comboBoxNomeVisualizar.setBounds(10, 155, 439, 33);
 		panel_2.add(comboBoxNomeVisualizar);
+		
+		comboBoxNomeVisualizar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String produtoSelecionado = (String) comboBoxNomeVisualizar.getSelectedItem();
+		        
+		        // Valida para não processar o item "Selecione um Produto..." ou se for nulo
+		        if (produtoSelecionado == null || produtoSelecionado.startsWith("--- Selecione")) {
+		            return; // Sai do método se for o item de placeholder
+		        }
+		        
+		        // 1. Chama o Controller para buscar o objeto completo
+		        ProdutoControle controller = new ProdutoControle();
+		        Produto produtoCompleto = controller.buscarProduto(produtoSelecionado);
+		        
+		        if (produtoCompleto != null) {
+		            
+		        	comboBoxNomeRemocao.setPopupVisible(false);
+		        	
+		            // 2. Monta a mensagem formatada
+		            String mensagem = String.format(
+		                "Informações do Produto:\n" +
+		                "---------------------------------\n" +
+		                "Nome: %s\n" +
+		                "Tipo: %s\n" +
+		                "Preço: R$ %.2f\n" +
+		                "Estoque Disponível: %d unidades", 
+		                produtoCompleto.getNomeProduto(),
+		                produtoCompleto.getTipo(),
+		                produtoCompleto.getValor(),
+		                produtoCompleto.getQuantidade()
+		            );
+		            
+		            // 3. Exibe o JOptionPane com as informações
+		            SwingUtilities.invokeLater(new Runnable() {
+		            	public void run() {
+		            		JOptionPane.showMessageDialog(TelaADM.this, mensagem, "Detalhes do Produto", JOptionPane.INFORMATION_MESSAGE);
+		        }});}
+		        
+		        else {
+		            // Caso o produto não seja encontrado por algum motivo
+		            JOptionPane.showMessageDialog(TelaADM.this, "Erro: Não foi possível carregar os detalhes do produto.", 
+		                                          "Erro de Busca", JOptionPane.ERROR_MESSAGE);
+			}}
+		});
 		
 		JPanel panelEditarInformações = new JPanel();
 		panelEditarInformações.setBackground(new Color(255, 255, 255));
@@ -332,15 +401,48 @@ public class TelaADM extends JFrame {
 		lblNewLabel_2.setBounds(10, 143, 216, 33);
 		panel_3.add(lblNewLabel_2);
 		
-		JComboBox comboBoxTipoAtualizado = new JComboBox();
-		comboBoxTipoAtualizado.setToolTipText("Escolha o tipo do produto!");
-		comboBoxTipoAtualizado.setForeground(new Color(64, 0, 0));
-		comboBoxTipoAtualizado.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		comboBoxTipoAtualizado.setBackground(Color.WHITE);
-		comboBoxTipoAtualizado.setBounds(10, 177, 216, 33);
-		panel_3.add(comboBoxTipoAtualizado);
+		this.comboBoxTipoEdit = new JComboBox();
+		this.comboBoxTipoEdit.setToolTipText("Escolha o tipo do produto!");
+		this.comboBoxTipoEdit.setForeground(new Color(64, 0, 0));
+		this.comboBoxTipoEdit.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		this.comboBoxTipoEdit.setBackground(Color.WHITE);
+		this.comboBoxTipoEdit.setBounds(10, 177, 216, 33);
+		comboBoxTipoEdit.setModel(new DefaultComboBoxModel(new String[] {"", "01.Carnes e derivados;", "02.Hortifruti;", "03.Grãos, cereais e farináceos;", "04.Laticínios e ovos;", "05.Bebidas;", "06.Enlatados, conservas e molhos;", "07.Produtos industrializados / processados;", "09.Temperos e condimentos;", "10.Produtos de padaria e confeitaria;"}));
+		panel_3.add(this.comboBoxTipoEdit);
 		
 		JButton btnNewButton_1_3 = new JButton("ATUALIZAR");
+		btnNewButton_1_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// 1. Capturar todos os dados da tela
+				String nome = (String) comboBoxNomeEditar.getSelectedItem(); // ⬅️ CORREÇÃO AQUI
+				String precoStr = textFieldValorEDit.getText();
+				String tipo = (String) comboBoxTipoEdit.getSelectedItem(); // ⬅️ CORREÇÃO AQUI
+				String estoqueStr = textFieldUnidadesEDIT.getText();
+
+		        // 2. Validação inicial do item selecionado
+		        if (nome == null || nome.startsWith("--- Selecione")) {
+		            JOptionPane.showMessageDialog(TelaADM.this, "Selecione um produto para atualizar.");
+		            return;
+		        }
+		        
+		        // 3. Chamar o Controller
+		        ProdutoControle controller = new ProdutoControle();
+		        String resultado = controller.atualizarProduto(nome, precoStr, tipo, estoqueStr);
+		        
+		        // 4. Exibir o resultado e ATUALIZAR as listas
+		        JOptionPane.showMessageDialog(TelaADM.this, resultado);
+
+		        // Limpa os campos após o sucesso
+		        if (resultado.contains("sucesso")) {
+		            limparCamposEdicao();
+		            
+		            // 🔑 CRÍTICO: Atualiza todos os ComboBoxes para mostrar a mudança de nome/tipo
+		            popularComboBoxesProdutos(); 
+		            // Se você tiver a JTable em outra aba, chame: popularTabela();
+		        }
+			}
+		});
 		btnNewButton_1_3.setToolTipText("Registre a atualização do produto o produto");
 		btnNewButton_1_3.setForeground(new Color(23, 0, 0));
 		btnNewButton_1_3.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -354,22 +456,24 @@ public class TelaADM extends JFrame {
 		lblValor_1.setBounds(233, 143, 216, 33);
 		panel_3.add(lblValor_1);
 		
-		textFieldValorAtualizado = new JTextField();
-		textFieldValorAtualizado.setToolTipText("Atualize o valor do produto!!");
-		textFieldValorAtualizado.setForeground(new Color(64, 0, 0));
-		textFieldValorAtualizado.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		textFieldValorAtualizado.setColumns(10);
-		textFieldValorAtualizado.setBounds(233, 177, 216, 33);
-		panel_3.add(textFieldValorAtualizado);
+		textFieldValorEDit = new JTextField();
+		textFieldValorEDit.setToolTipText("Atualize o valor do produto!!");
+		textFieldValorEDit.setForeground(new Color(64, 0, 0));
+		textFieldValorEDit.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		textFieldValorEDit.setColumns(10);
+		textFieldValorEDit.setBounds(233, 177, 216, 33);
+		panel_3.add(textFieldValorEDit);
 		
 		//============================================================================EDITAR============================================================================
-		JComboBox comboBoxNomeEditar = new JComboBox();
+		comboBoxNomeEditar = new JComboBox();
 		comboBoxNomeEditar.setToolTipText("Selecione o nome do produto que deseja Editar as Informações!");
 		comboBoxNomeEditar.setForeground(new Color(64, 0, 0));
 		comboBoxNomeEditar.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		comboBoxNomeEditar.setBackground(Color.WHITE);
 		comboBoxNomeEditar.setBounds(10, 99, 216, 33);
 		panel_3.add(comboBoxNomeEditar);
+		
+		
 		
 		JLabel lblQuantidade_1 = new JLabel("Unidades:");
 		lblQuantidade_1.setForeground(new Color(23, 0, 0));
@@ -384,6 +488,51 @@ public class TelaADM extends JFrame {
 		textFieldUnidadesEDIT.setColumns(10);
 		textFieldUnidadesEDIT.setBounds(233, 99, 216, 33);
 		panel_3.add(textFieldUnidadesEDIT);
+		
+		
+		comboBoxNomeEditar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			        
+			        // Pega o nome do produto selecionado
+			        String nomeSelecionado = (String) comboBoxNomeEditar.getSelectedItem();
+			        
+			        // 1. Valida a seleção (ignora se for o placeholder)
+			        if (nomeSelecionado == null || nomeSelecionado.startsWith("--- Selecione")) {
+			            
+			            // Limpa os campos quando o placeholder é selecionado
+			           limparCamposEdicao();
+			            return; 
+			        }
+
+			        // 2. Chama o Controller para buscar o objeto completo (usando o método que você já criou!)
+			        ProdutoControle controller = new ProdutoControle();
+			        Produto produtoCompleto = controller.buscarProduto(nomeSelecionado); 
+			        
+			        if (produtoCompleto != null) {
+			            
+			            // 3. Preenche os componentes com as informações do objeto
+			            
+			            // Campo Unidades (Estoque)
+			            textFieldUnidadesEDIT.setText(String.valueOf(produtoCompleto.getQuantidade()));
+
+			            // Campo Valor
+			            textFieldValorEDit.setText(String.format("%.2f", produtoCompleto.getValor()));
+			            
+			            String tipoProduto = produtoCompleto.getTipo().trim();
+			            
+			            // Campo Tipo de Produto (JComboBox)
+			            comboBoxTipoEdit.setSelectedItem(tipoProduto);
+			            
+			        } else {
+			            // Em caso de erro na busca, limpa e avisa
+			            limparCamposEdicao();
+			            JOptionPane.showMessageDialog(TelaADM.this, "Erro ao carregar dados para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+			        }
+			}
+		});
 		
 		JPanel panelSaida = new JPanel();
 		panelSaida.setBackground(new Color(255, 255, 255));
@@ -430,7 +579,61 @@ public class TelaADM extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 			}
 		});
-		
-
+			popularComboBoxesProdutos();
 	}
-}
+		
+		private void popularComboBoxesProdutos() {
+		    
+		    // Limpa os ComboBoxes antes de carregar
+		    comboBoxNomeRemocao.removeAllItems();
+		    comboBoxNomeVisualizar.removeAllItems();
+		    comboBoxNomeEditar.removeAllItems();
+
+		    // 1. Chama o Garçom (Controller)
+		    ProdutoControle controller = new ProdutoControle(); 
+		    List<Produto> listaProdutos = controller.listarProdutosParaView(); // Pega a lista
+
+		    // Se a lista estiver vazia (banco não tem nada), exibe a mensagem e para
+		    if (listaProdutos.isEmpty()) {
+		    	comboBoxNomeRemocao.addItem("Nenhum produto cadastrado");
+		    	comboBoxNomeVisualizar.addItem("Nenhum produto cadastrado");
+		    	comboBoxNomeEditar.addItem("Nenhum produto cadastrado");
+		        return; 
+		    }
+
+		    // Adiciona o item inicial de seleção
+		    String itemInicial = "--- Selecione um Produto ---";
+		    comboBoxNomeRemocao.addItem(itemInicial);
+		    comboBoxNomeVisualizar.addItem(itemInicial);
+		    comboBoxNomeEditar.addItem(itemInicial);
+
+		    // 2. Itera sobre a lista e preenche os ComboBoxes
+		    for (Produto produto : listaProdutos) {
+		        
+		        // Assumindo que você usa o getter getNomeProduto()
+		        String nomeProduto = produto.getNomeProduto(); 
+		        
+		        comboBoxNomeRemocao.addItem(nomeProduto);
+		        comboBoxNomeVisualizar.addItem(nomeProduto);
+		        comboBoxNomeEditar.addItem(nomeProduto);
+		    }
+	}
+		
+		private void limparCamposEdicao() {
+	        
+			// 1. Limpa o campo de unidades/estoque
+		    textFieldUnidadesEDIT.setText("");
+		    
+		    // 2. Limpa o campo de valor/preço
+		    textFieldValorEDit.setText(""); // ⬅️ Corrigido de textFieldValorEDit para o seu atributo
+
+		    // 🔑 CORREÇÃO AQUI: Use o JComboBox de EDIÇÃO!
+		    if (comboBoxNomeEditar.getItemCount() > 0) {
+		    	comboBoxNomeEditar.setSelectedIndex(0);
+		    }
+	        
+		}
+	
+
+    }
+
