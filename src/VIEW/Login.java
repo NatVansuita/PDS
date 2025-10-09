@@ -166,22 +166,15 @@ public class Login extends JFrame {
 		        
 		        System.out.println("Valor lido do banco para tipo de usuário: " + usuarioLogado.getTipocliente());
 		        if (usuarioLogado != null) {
-		            // Sucesso no Login
-		            
-		            // Verifica a permissão para exibir a tela correta (Requisito 19, 23)
 		            if (usuarioLogado.getTipocliente()) {
-		                // É ADM (Requisito 19)
-		                // Exibe a TelaADM
-		                TelaADM telaAdm = new TelaADM(); // Você precisará criar esta classe
+		                TelaADM telaAdm = new TelaADM();
 		                telaAdm.setVisible(true);
 		                Login.this.setVisible(false);
 		                JOptionPane.showMessageDialog(null, "BEM VINDO ADM");
 		            } 
 		            
 		            else {
-		                // É Cliente (Requisito 23)
-		                // Exibe a Tela de Compra (Supermercado)
-		                Supermercado telaCompra = new Supermercado(); // Você precisará criar esta classe
+		                Supermercado telaCompra = new Supermercado();
 		                telaCompra.setVisible(true);
 		                Login.this.setVisible(false);
 		                JOptionPane.showMessageDialog(null, "BEM VINDO CLIENTE");
@@ -190,8 +183,6 @@ public class Login extends JFrame {
 		        } 
 		        
 		        else {
-		            // Falha no Login (Usuário ou CPF incorretos)
-		            // Exibir alerta (Requisito 34)
 		            JOptionPane.showMessageDialog(null, "Nome ou CPF inválidos. Tente novamente ou cadastre-se.");
 		        }
 		    }

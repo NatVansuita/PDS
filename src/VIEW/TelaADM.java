@@ -56,7 +56,6 @@ public class TelaADM extends JFrame {
 	private JComboBox comboBoxNomeVisualizar = new JComboBox();
 	private JComboBox comboBoxNomeEditar = new JComboBox();
 	private JComboBox comboBoxTipoEdit = new JComboBox();
-	
 
 	/**
 	 * Launch the application.
@@ -79,7 +78,8 @@ public class TelaADM extends JFrame {
 	 */
 	public TelaADM() {
 		setFont(new Font("Dialog", Font.PLAIN, 13));
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL\\Downloads\\110f5a81-8864-4bc1-aa8d-e19c47dc577a-removebg-preview.png"));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage("C:\\Users\\DELL\\Downloads\\110f5a81-8864-4bc1-aa8d-e19c47dc577a-removebg-preview.png"));
 		setTitle("Administração");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 381);
@@ -87,25 +87,25 @@ public class TelaADM extends JFrame {
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setForeground(new Color(23, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		tabbedPane.setBounds(0, 0, 484, 342);
 		contentPane.add(tabbedPane);
-		
+
 		JPanel panelCadastrar = new JPanel();
 		panelCadastrar.setBackground(new Color(255, 255, 255));
 		panelCadastrar.setForeground(new Color(0, 0, 0));
 		tabbedPane.addTab("Cadastrar", null, panelCadastrar, null);
 		panelCadastrar.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
 		panel.setBounds(10, 11, 459, 292);
 		panelCadastrar.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblTextoExplicativoCadastro = new JLabel("CADASTRO");
 		lblTextoExplicativoCadastro.setForeground(new Color(23, 0, 0));
 		lblTextoExplicativoCadastro.setBounds(0, 0, 459, 64);
@@ -113,14 +113,14 @@ public class TelaADM extends JFrame {
 		lblTextoExplicativoCadastro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoExplicativoCadastro.setFont(new Font("SansSerif", Font.BOLD, 50));
 		panel.add(lblTextoExplicativoCadastro);
-		
+
 		JLabel lblnome = new JLabel("Nome do produto:");
 		lblnome.setForeground(new Color(23, 0, 0));
 		lblnome.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblnome.setBounds(10, 67, 216, 33);
 		panel.add(lblnome);
-		
-		//============================================================================CADASTRO============================================================================
+
+		// ============================================================================CADASTRO============================================================================
 		textFieldNomeProduto = new JTextField();
 		textFieldNomeProduto.setToolTipText("Escreva o nome do Produto a ser cadastrado!");
 		textFieldNomeProduto.setForeground(new Color(64, 0, 0));
@@ -128,56 +128,55 @@ public class TelaADM extends JFrame {
 		textFieldNomeProduto.setBounds(10, 99, 216, 33);
 		panel.add(textFieldNomeProduto);
 		textFieldNomeProduto.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("Tipo de produto:");
 		lblNewLabel.setForeground(new Color(23, 0, 0));
 		lblNewLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblNewLabel.setBounds(10, 143, 216, 33);
 		panel.add(lblNewLabel);
-		
-		//=========================TIPO=========================
+
+		// =========================TIPO=========================
 		comboBoxTipo = new JComboBox();
 		comboBoxTipo.setBackground(new Color(255, 255, 255));
 		comboBoxTipo.setToolTipText("Escolha o tipo do produto!");
 		comboBoxTipo.setForeground(new Color(64, 0, 0));
 		comboBoxTipo.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		comboBoxTipo.setModel(new DefaultComboBoxModel(new String[] {"", "01.Carnes e derivados;", "02.Hortifruti;", "03.Grãos, cereais e farináceos;", "04.Laticínios e ovos;", "05.Bebidas;", "06.Enlatados, conservas e molhos;", "07.Produtos industrializados / processados;", "09.Temperos e condimentos;", "10.Produtos de padaria e confeitaria;"}));
+		comboBoxTipo.setModel(new DefaultComboBoxModel(new String[] { "", "01.Carnes e derivados;", "02.Hortifruti;",
+				"03.Grãos, cereais e farináceos;", "04.Laticínios e ovos;", "05.Bebidas;",
+				"06.Enlatados, conservas e molhos;", "07.Produtos industrializados / processados;",
+				"09.Temperos e condimentos;", "10.Produtos de padaria e confeitaria;" }));
 		comboBoxTipo.setBounds(10, 177, 216, 33);
 		panel.add(comboBoxTipo);
-		
-		//=========================BOTÃO CASTRAR=========================
+
+		// =========================BOTÃO CASTRAR=========================
 		JButton btnNewButton_1 = new JButton("CADASTRAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				 String nome = textFieldNomeProduto.getText();
-			        String valor = textField.getText(); // (Preço/Valor)
-			        
-			        // CORREÇÃO: Usar o JTextField que o usuário preenche
-			        String quantidade = textFieldUnidadesCadastro.getText(); 
-			        
-			        String tipo = (String) comboBoxTipo.getSelectedItem();
-			        
-			        if (tipo == null || tipo.startsWith("--- Selecione") || tipo.trim().isEmpty()) {
-			            JOptionPane.showMessageDialog(TelaADM.this, "O campo 'Tipo de Produto' não pode ser vazio.");
-			            return; // Para a execução
-			        }
-			        
-			        ProdutoControle controle = new ProdutoControle();
-			        
-			        // Chama o Controller
-			        String mensagem = controle.cadastrarNovoProduto(nome, valor, quantidade, tipo);
-			        
-			        JOptionPane.showMessageDialog(TelaADM.this, mensagem); 
-			        
-			        // 4. Opcional: Limpa os campos após o cadastro com sucesso
-			        if (mensagem.contains("sucesso")) {
-			            textFieldNomeProduto.setText("");
-			            textField.setText("");
-			            textFieldUnidadesCadastro.setText("");
-			            comboBoxTipo.setSelectedIndex(0); // Correção para o ComboBox: use setSelectedIndex(0)
-			        }
-				
+
+				String nome = textFieldNomeProduto.getText();
+				String valor = textField.getText();
+				String quantidade = textFieldUnidadesCadastro.getText();
+
+				String tipo = (String) comboBoxTipo.getSelectedItem();
+
+				if (tipo == null || tipo.startsWith("--- Selecione") || tipo.trim().isEmpty()) {
+					JOptionPane.showMessageDialog(TelaADM.this, "O campo 'Tipo de Produto' não pode ser vazio.");
+					return;
+				}
+
+				ProdutoControle controle = new ProdutoControle();
+
+				String mensagem = controle.cadastrarNovoProduto(nome, valor, quantidade, tipo);
+
+				JOptionPane.showMessageDialog(TelaADM.this, mensagem);
+
+				if (mensagem.contains("sucesso")) {
+					textFieldNomeProduto.setText("");
+					textField.setText("");
+					textFieldUnidadesCadastro.setText("");
+					comboBoxTipo.setSelectedIndex(0);
+				}
+
 			}
 		});
 		btnNewButton_1.setToolTipText("Cadastre o produto");
@@ -186,14 +185,14 @@ public class TelaADM extends JFrame {
 		btnNewButton_1.setBackground(Color.WHITE);
 		btnNewButton_1.setBounds(10, 234, 437, 27);
 		panel.add(btnNewButton_1);
-		
+
 		JLabel lblValor = new JLabel("Valor:");
 		lblValor.setForeground(new Color(23, 0, 0));
 		lblValor.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblValor.setBounds(233, 143, 216, 33);
 		panel.add(lblValor);
-		
-		//=========================VALOR=========================
+
+		// =========================VALOR=========================
 		textField = new JTextField();
 		textField.setToolTipText("Escreva o nome do Produto a ser cadastrado!");
 		textField.setForeground(new Color(64, 0, 0));
@@ -201,14 +200,14 @@ public class TelaADM extends JFrame {
 		textField.setColumns(10);
 		textField.setBounds(233, 177, 216, 33);
 		panel.add(textField);
-		
+
 		JLabel lblQuantidade = new JLabel("Unidades:");
 		lblQuantidade.setForeground(new Color(23, 0, 0));
 		lblQuantidade.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblQuantidade.setBounds(231, 67, 216, 33);
 		panel.add(lblQuantidade);
-		
-		//=========================QUANIDADES=========================
+
+		// =========================QUANIDADES=========================
 		textFieldUnidadesCadastro = new JTextField();
 		textFieldUnidadesCadastro.setToolTipText("Escreva a quantidade de unidades do produto!");
 		textFieldUnidadesCadastro.setForeground(new Color(64, 0, 0));
@@ -216,17 +215,17 @@ public class TelaADM extends JFrame {
 		textFieldUnidadesCadastro.setColumns(10);
 		textFieldUnidadesCadastro.setBounds(231, 101, 216, 33);
 		panel.add(textFieldUnidadesCadastro);
-		
+
 		JPanel panelRemover = new JPanel();
 		panelRemover.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("Remover", null, panelRemover, null);
 		panelRemover.setLayout(null);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBounds(10, 11, 459, 292);
 		panelRemover.add(panel_1);
-		
+
 		JLabel lblTextoExplicativoRemover = new JLabel("REMOÇÃO");
 		lblTextoExplicativoRemover.setToolTipText("Titulo");
 		lblTextoExplicativoRemover.setHorizontalAlignment(SwingConstants.CENTER);
@@ -234,43 +233,36 @@ public class TelaADM extends JFrame {
 		lblTextoExplicativoRemover.setFont(new Font("SansSerif", Font.BOLD, 50));
 		lblTextoExplicativoRemover.setBounds(0, 0, 459, 64);
 		panel_1.add(lblTextoExplicativoRemover);
-		
+
 		JLabel lblnome_1 = new JLabel("Nome do produto:");
 		lblnome_1.setForeground(new Color(23, 0, 0));
 		lblnome_1.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblnome_1.setBounds(8, 102, 439, 33);
 		panel_1.add(lblnome_1);
-		
+
 		JButton btnNewButton_1_1 = new JButton("REMOVER");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// 1. Pega o item selecionado no ComboBox de Remoção
+
 				String produtoSelecionado = (String) comboBoxNomeRemocao.getSelectedItem();
 
-				// 2. Valida se é um produto real e não o item inicial
 				if (produtoSelecionado == null || produtoSelecionado.startsWith("--- Selecione")) {
-				    JOptionPane.showMessageDialog(null, "Selecione um produto válido para remover.");
-				    return;
+					JOptionPane.showMessageDialog(null, "Selecione um produto válido para remover.");
+					return;
 				}
 
-				// 3. Opcional: Pedir confirmação
-				int confirmacao = JOptionPane.showConfirmDialog(TelaADM.this, "Tem certeza que deseja remover o produto: " + produtoSelecionado + "?", 
-				    "Confirmação de Remoção", JOptionPane.YES_NO_OPTION);
-						
+				int confirmacao = JOptionPane.showConfirmDialog(TelaADM.this,
+						"Tem certeza que deseja remover o produto: " + produtoSelecionado + "?",
+						"Confirmação de Remoção", JOptionPane.YES_NO_OPTION);
 
 				if (confirmacao == JOptionPane.YES_OPTION) {
-				    
-				    // 4. Cria o Controller e chama o método de remoção
-				    ProdutoControle controller = new ProdutoControle();
-				    String resultado = controller.removerProdutoPorNome(produtoSelecionado);
-				    
-				    // 5. Exibe o resultado e ATUALIZA O COMBOBOX!
-				    JOptionPane.showMessageDialog(TelaADM.this, resultado);
-				    
-				    // 🔑 CHAVE: Atualizar o ComboBox para refletir a remoção!
-				    popularComboBoxesProdutos(); 
-				    // ^^^ Este método que você já criou precisa ser chamado novamente.
+
+					ProdutoControle controller = new ProdutoControle();
+					String resultado = controller.removerProdutoPorNome(produtoSelecionado);
+
+					JOptionPane.showMessageDialog(TelaADM.this, resultado);
+
+					popularComboBoxesProdutos();
 				}
 			}
 		});
@@ -280,8 +272,8 @@ public class TelaADM extends JFrame {
 		btnNewButton_1_1.setBackground(Color.WHITE);
 		btnNewButton_1_1.setBounds(10, 234, 437, 27);
 		panel_1.add(btnNewButton_1_1);
-		
-		//============================================================================REMOÇÃO============================================================================
+
+		// ============================================================================REMOÇÃO============================================================================
 		comboBoxNomeRemocao = new JComboBox();
 		comboBoxNomeRemocao.setToolTipText("Selecione o nome do produto a ser removido!");
 		comboBoxNomeRemocao.setForeground(new Color(64, 0, 0));
@@ -289,17 +281,17 @@ public class TelaADM extends JFrame {
 		comboBoxNomeRemocao.setBackground(Color.WHITE);
 		comboBoxNomeRemocao.setBounds(8, 134, 439, 33);
 		panel_1.add(comboBoxNomeRemocao);
-		
+
 		JPanel panelVisualizar = new JPanel();
 		panelVisualizar.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("Visualizar", null, panelVisualizar, null);
 		panelVisualizar.setLayout(null);
-		
+
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBounds(10, 11, 459, 292);
 		panelVisualizar.add(panel_2);
-		
+
 		JLabel lblTextoExplicativoVizualizar = new JLabel("VISUALIZAR");
 		lblTextoExplicativoVizualizar.setToolTipText("Titulo");
 		lblTextoExplicativoVizualizar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -307,14 +299,14 @@ public class TelaADM extends JFrame {
 		lblTextoExplicativoVizualizar.setFont(new Font("SansSerif", Font.BOLD, 50));
 		lblTextoExplicativoVizualizar.setBounds(0, 0, 459, 64);
 		panel_2.add(lblTextoExplicativoVizualizar);
-		
+
 		JLabel lblnome_2 = new JLabel("Nome do produto:");
 		lblnome_2.setForeground(new Color(23, 0, 0));
 		lblnome_2.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblnome_2.setBounds(10, 121, 439, 33);
 		panel_2.add(lblnome_2);
-		
-		//============================================================================VISUALIZAÇÃO============================================================================
+
+		// ============================================================================VISUALIZAÇÃO============================================================================
 		comboBoxNomeVisualizar = new JComboBox();
 		comboBoxNomeVisualizar.setToolTipText("Selecione o nome do produto que deseja visualizar!");
 		comboBoxNomeVisualizar.setForeground(new Color(64, 0, 0));
@@ -322,64 +314,57 @@ public class TelaADM extends JFrame {
 		comboBoxNomeVisualizar.setBackground(Color.WHITE);
 		comboBoxNomeVisualizar.setBounds(10, 155, 439, 33);
 		panel_2.add(comboBoxNomeVisualizar);
-		
+
 		comboBoxNomeVisualizar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String produtoSelecionado = (String) comboBoxNomeVisualizar.getSelectedItem();
-		        
-		        // Valida para não processar o item "Selecione um Produto..." ou se for nulo
-		        if (produtoSelecionado == null || produtoSelecionado.startsWith("--- Selecione")) {
-		            return; // Sai do método se for o item de placeholder
-		        }
-		        
-		        // 1. Chama o Controller para buscar o objeto completo
-		        ProdutoControle controller = new ProdutoControle();
-		        Produto produtoCompleto = controller.buscarProduto(produtoSelecionado);
-		        
-		        if (produtoCompleto != null) {
-		            
-		        	comboBoxNomeRemocao.setPopupVisible(false);
-		        	
-		            // 2. Monta a mensagem formatada
-		            String mensagem = String.format(
-		                "Informações do Produto:\n" +
-		                "---------------------------------\n" +
-		                "Nome: %s\n" +
-		                "Tipo: %s\n" +
-		                "Preço: R$ %.2f\n" +
-		                "Estoque Disponível: %d unidades", 
-		                produtoCompleto.getNomeProduto(),
-		                produtoCompleto.getTipo(),
-		                produtoCompleto.getValor(),
-		                produtoCompleto.getQuantidade()
-		            );
-		            
-		            // 3. Exibe o JOptionPane com as informações
-		            SwingUtilities.invokeLater(new Runnable() {
-		            	public void run() {
-		            		JOptionPane.showMessageDialog(TelaADM.this, mensagem, "Detalhes do Produto", JOptionPane.INFORMATION_MESSAGE);
-		        }});}
-		        
-		        else {
-		            // Caso o produto não seja encontrado por algum motivo
-		            JOptionPane.showMessageDialog(TelaADM.this, "Erro: Não foi possível carregar os detalhes do produto.", 
-		                                          "Erro de Busca", JOptionPane.ERROR_MESSAGE);
-			}}
+
+				if (produtoSelecionado == null || produtoSelecionado.startsWith("--- Selecione")) {
+					return;
+				}
+
+				ProdutoControle controller = new ProdutoControle();
+				Produto produtoCompleto = controller.buscarProduto(produtoSelecionado);
+
+				if (produtoCompleto != null) {
+
+					comboBoxNomeRemocao.setPopupVisible(false);
+
+					String mensagem = String.format(
+							"Informações do Produto:\n" + "---------------------------------\n" + "Nome: %s\n"
+									+ "Tipo: %s\n" + "Preço: R$ %.2f\n" + "Estoque Disponível: %d unidades",
+							produtoCompleto.getNomeProduto(), produtoCompleto.getTipo(), produtoCompleto.getValor(),
+							produtoCompleto.getQuantidade());
+
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							JOptionPane.showMessageDialog(TelaADM.this, mensagem, "Detalhes do Produto",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					});
+				}
+
+				else {
+					JOptionPane.showMessageDialog(TelaADM.this,
+							"Erro: Não foi possível carregar os detalhes do produto.", "Erro de Busca",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		});
-		
+
 		JPanel panelEditarInformações = new JPanel();
 		panelEditarInformações.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("Editar Informações", null, panelEditarInformações, null);
 		panelEditarInformações.setLayout(null);
-		
+
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBounds(10, 11, 459, 292);
 		panelEditarInformações.add(panel_3);
-		
+
 		JLabel lblTextoExplicativoEditar = new JLabel("EDIT. INFOR.");
 		lblTextoExplicativoEditar.setToolTipText("Titulo");
 		lblTextoExplicativoEditar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -387,60 +372,56 @@ public class TelaADM extends JFrame {
 		lblTextoExplicativoEditar.setFont(new Font("SansSerif", Font.BOLD, 50));
 		lblTextoExplicativoEditar.setBounds(0, 0, 459, 64);
 		panel_3.add(lblTextoExplicativoEditar);
-		
+
 		JLabel lblnome_3 = new JLabel("Nome do produto:");
 		lblnome_3.setForeground(new Color(23, 0, 0));
 		lblnome_3.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblnome_3.setBounds(10, 67, 216, 33);
 		panel_3.add(lblnome_3);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Tipo de produto:");
 		lblNewLabel_2.setToolTipText("");
 		lblNewLabel_2.setForeground(new Color(23, 0, 0));
 		lblNewLabel_2.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblNewLabel_2.setBounds(10, 143, 216, 33);
 		panel_3.add(lblNewLabel_2);
-		
+
 		this.comboBoxTipoEdit = new JComboBox();
 		this.comboBoxTipoEdit.setToolTipText("Escolha o tipo do produto!");
 		this.comboBoxTipoEdit.setForeground(new Color(64, 0, 0));
 		this.comboBoxTipoEdit.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		this.comboBoxTipoEdit.setBackground(Color.WHITE);
 		this.comboBoxTipoEdit.setBounds(10, 177, 216, 33);
-		comboBoxTipoEdit.setModel(new DefaultComboBoxModel(new String[] {"", "01.Carnes e derivados;", "02.Hortifruti;", "03.Grãos, cereais e farináceos;", "04.Laticínios e ovos;", "05.Bebidas;", "06.Enlatados, conservas e molhos;", "07.Produtos industrializados / processados;", "09.Temperos e condimentos;", "10.Produtos de padaria e confeitaria;"}));
+		comboBoxTipoEdit.setModel(new DefaultComboBoxModel(new String[] { "", "01.Carnes e derivados;",
+				"02.Hortifruti;", "03.Grãos, cereais e farináceos;", "04.Laticínios e ovos;", "05.Bebidas;",
+				"06.Enlatados, conservas e molhos;", "07.Produtos industrializados / processados;",
+				"09.Temperos e condimentos;", "10.Produtos de padaria e confeitaria;" }));
 		panel_3.add(this.comboBoxTipoEdit);
-		
+
 		JButton btnNewButton_1_3 = new JButton("ATUALIZAR");
 		btnNewButton_1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// 1. Capturar todos os dados da tela
-				String nome = (String) comboBoxNomeEditar.getSelectedItem(); // ⬅️ CORREÇÃO AQUI
+
+				String nome = (String) comboBoxNomeEditar.getSelectedItem();
 				String precoStr = textFieldValorEDit.getText();
-				String tipo = (String) comboBoxTipoEdit.getSelectedItem(); // ⬅️ CORREÇÃO AQUI
+				String tipo = (String) comboBoxTipoEdit.getSelectedItem();
 				String estoqueStr = textFieldUnidadesEDIT.getText();
 
-		        // 2. Validação inicial do item selecionado
-		        if (nome == null || nome.startsWith("--- Selecione")) {
-		            JOptionPane.showMessageDialog(TelaADM.this, "Selecione um produto para atualizar.");
-		            return;
-		        }
-		        
-		        // 3. Chamar o Controller
-		        ProdutoControle controller = new ProdutoControle();
-		        String resultado = controller.atualizarProduto(nome, precoStr, tipo, estoqueStr);
-		        
-		        // 4. Exibir o resultado e ATUALIZAR as listas
-		        JOptionPane.showMessageDialog(TelaADM.this, resultado);
+				if (nome == null || nome.startsWith("--- Selecione")) {
+					JOptionPane.showMessageDialog(TelaADM.this, "Selecione um produto para atualizar.");
+					return;
+				}
 
-		        // Limpa os campos após o sucesso
-		        if (resultado.contains("sucesso")) {
-		            limparCamposEdicao();
-		            
-		            // 🔑 CRÍTICO: Atualiza todos os ComboBoxes para mostrar a mudança de nome/tipo
-		            popularComboBoxesProdutos(); 
-		            // Se você tiver a JTable em outra aba, chame: popularTabela();
-		        }
+				ProdutoControle controller = new ProdutoControle();
+				String resultado = controller.atualizarProduto(nome, precoStr, tipo, estoqueStr);
+
+				JOptionPane.showMessageDialog(TelaADM.this, resultado);
+
+				if (resultado.contains("sucesso")) {
+					limparCamposEdicao();
+
+					popularComboBoxesProdutos();
+				}
 			}
 		});
 		btnNewButton_1_3.setToolTipText("Registre a atualização do produto o produto");
@@ -449,13 +430,13 @@ public class TelaADM extends JFrame {
 		btnNewButton_1_3.setBackground(Color.WHITE);
 		btnNewButton_1_3.setBounds(10, 234, 437, 27);
 		panel_3.add(btnNewButton_1_3);
-		
+
 		JLabel lblValor_1 = new JLabel("Valor:");
 		lblValor_1.setForeground(new Color(23, 0, 0));
 		lblValor_1.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblValor_1.setBounds(233, 143, 216, 33);
 		panel_3.add(lblValor_1);
-		
+
 		textFieldValorEDit = new JTextField();
 		textFieldValorEDit.setToolTipText("Atualize o valor do produto!!");
 		textFieldValorEDit.setForeground(new Color(64, 0, 0));
@@ -463,8 +444,8 @@ public class TelaADM extends JFrame {
 		textFieldValorEDit.setColumns(10);
 		textFieldValorEDit.setBounds(233, 177, 216, 33);
 		panel_3.add(textFieldValorEDit);
-		
-		//============================================================================EDITAR============================================================================
+
+		// ============================================================================EDITAR============================================================================
 		comboBoxNomeEditar = new JComboBox();
 		comboBoxNomeEditar.setToolTipText("Selecione o nome do produto que deseja Editar as Informações!");
 		comboBoxNomeEditar.setForeground(new Color(64, 0, 0));
@@ -472,15 +453,13 @@ public class TelaADM extends JFrame {
 		comboBoxNomeEditar.setBackground(Color.WHITE);
 		comboBoxNomeEditar.setBounds(10, 99, 216, 33);
 		panel_3.add(comboBoxNomeEditar);
-		
-		
-		
+
 		JLabel lblQuantidade_1 = new JLabel("Unidades:");
 		lblQuantidade_1.setForeground(new Color(23, 0, 0));
 		lblQuantidade_1.setFont(new Font("SansSerif", Font.BOLD, 20));
 		lblQuantidade_1.setBounds(233, 65, 216, 33);
 		panel_3.add(lblQuantidade_1);
-		
+
 		textFieldUnidadesEDIT = new JTextField();
 		textFieldUnidadesEDIT.setToolTipText("Escreva a quantidade de unidades do produto!");
 		textFieldUnidadesEDIT.setForeground(new Color(64, 0, 0));
@@ -488,69 +467,59 @@ public class TelaADM extends JFrame {
 		textFieldUnidadesEDIT.setColumns(10);
 		textFieldUnidadesEDIT.setBounds(233, 99, 216, 33);
 		panel_3.add(textFieldUnidadesEDIT);
-		
-		
+
 		comboBoxNomeEditar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-			        
-			        // Pega o nome do produto selecionado
-			        String nomeSelecionado = (String) comboBoxNomeEditar.getSelectedItem();
-			        
-			        // 1. Valida a seleção (ignora se for o placeholder)
-			        if (nomeSelecionado == null || nomeSelecionado.startsWith("--- Selecione")) {
-			            
-			            // Limpa os campos quando o placeholder é selecionado
-			           limparCamposEdicao();
-			            return; 
-			        }
 
-			        // 2. Chama o Controller para buscar o objeto completo (usando o método que você já criou!)
-			        ProdutoControle controller = new ProdutoControle();
-			        Produto produtoCompleto = controller.buscarProduto(nomeSelecionado); 
-			        
-			        if (produtoCompleto != null) {
-			            
-			            // 3. Preenche os componentes com as informações do objeto
-			            
-			            // Campo Unidades (Estoque)
-			            textFieldUnidadesEDIT.setText(String.valueOf(produtoCompleto.getQuantidade()));
+				String nomeSelecionado = (String) comboBoxNomeEditar.getSelectedItem();
 
-			            // Campo Valor
-			            textFieldValorEDit.setText(String.format("%.2f", produtoCompleto.getValor()));
-			            
-			            String tipoProduto = produtoCompleto.getTipo().trim();
-			            
-			            // Campo Tipo de Produto (JComboBox)
-			            comboBoxTipoEdit.setSelectedItem(tipoProduto);
-			            
-			        } else {
-			            // Em caso de erro na busca, limpa e avisa
-			            limparCamposEdicao();
-			            JOptionPane.showMessageDialog(TelaADM.this, "Erro ao carregar dados para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
-			        }
+				if (nomeSelecionado == null || nomeSelecionado.startsWith("--- Selecione")) {
+
+					limparCamposEdicao();
+					return;
+				}
+
+				ProdutoControle controller = new ProdutoControle();
+				Produto produtoCompleto = controller.buscarProduto(nomeSelecionado);
+
+				if (produtoCompleto != null) {
+
+					textFieldUnidadesEDIT.setText(String.valueOf(produtoCompleto.getQuantidade()));
+
+					textFieldValorEDit.setText(String.format("%.2f", produtoCompleto.getValor()));
+
+					String tipoProduto = produtoCompleto.getTipo().trim();
+
+					comboBoxTipoEdit.setSelectedItem(tipoProduto);
+
+				} else {
+					limparCamposEdicao();
+					JOptionPane.showMessageDialog(TelaADM.this, "Erro ao carregar dados para edição.", "Erro",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
-		
+
 		JPanel panelSaida = new JPanel();
 		panelSaida.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("SAIDA", null, panelSaida, null);
 		panelSaida.setLayout(null);
-		
+
 		JPanel panel_2_1 = new JPanel();
 		panel_2_1.setLayout(null);
 		panel_2_1.setBounds(10, 11, 459, 292);
 		panelSaida.add(panel_2_1);
-		
-		//============================================================================SAIR============================================================================
+
+		// ============================================================================SAIR============================================================================
 		JButton btnMudarParaCliente = new JButton("Mudar para Cliente");
 		btnMudarParaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Supermercado telaCompra = new Supermercado(); // Você precisará criar esta classe
-                telaCompra.setVisible(true);
-                TelaADM.this.setVisible(false);
+				Supermercado telaCompra = new Supermercado();
+				telaCompra.setVisible(true);
+				TelaADM.this.setVisible(false);
 			}
 		});
 		btnMudarParaCliente.setToolTipText("Ir para a área do cliente");
@@ -559,7 +528,7 @@ public class TelaADM extends JFrame {
 		btnMudarParaCliente.setBackground(Color.WHITE);
 		btnMudarParaCliente.setBounds(10, 123, 439, 32);
 		panel_2_1.add(btnMudarParaCliente);
-		
+
 		JButton btnSair = new JButton("SAIR");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -574,66 +543,55 @@ public class TelaADM extends JFrame {
 		btnSair.setBackground(Color.WHITE);
 		btnSair.setBounds(10, 178, 439, 32);
 		panel_2_1.add(btnSair);
-		
+
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 			}
 		});
-			popularComboBoxesProdutos();
+		popularComboBoxesProdutos();
 	}
-		
-		private void popularComboBoxesProdutos() {
-		    
-		    // Limpa os ComboBoxes antes de carregar
-		    comboBoxNomeRemocao.removeAllItems();
-		    comboBoxNomeVisualizar.removeAllItems();
-		    comboBoxNomeEditar.removeAllItems();
 
-		    // 1. Chama o Garçom (Controller)
-		    ProdutoControle controller = new ProdutoControle(); 
-		    List<Produto> listaProdutos = controller.listarProdutosParaView(); // Pega a lista
+	private void popularComboBoxesProdutos() {
 
-		    // Se a lista estiver vazia (banco não tem nada), exibe a mensagem e para
-		    if (listaProdutos.isEmpty()) {
-		    	comboBoxNomeRemocao.addItem("Nenhum produto cadastrado");
-		    	comboBoxNomeVisualizar.addItem("Nenhum produto cadastrado");
-		    	comboBoxNomeEditar.addItem("Nenhum produto cadastrado");
-		        return; 
-		    }
+		comboBoxNomeRemocao.removeAllItems();
+		comboBoxNomeVisualizar.removeAllItems();
+		comboBoxNomeEditar.removeAllItems();
 
-		    // Adiciona o item inicial de seleção
-		    String itemInicial = "--- Selecione um Produto ---";
-		    comboBoxNomeRemocao.addItem(itemInicial);
-		    comboBoxNomeVisualizar.addItem(itemInicial);
-		    comboBoxNomeEditar.addItem(itemInicial);
+		ProdutoControle controller = new ProdutoControle();
+		List<Produto> listaProdutos = controller.listarProdutosParaView();
 
-		    // 2. Itera sobre a lista e preenche os ComboBoxes
-		    for (Produto produto : listaProdutos) {
-		        
-		        // Assumindo que você usa o getter getNomeProduto()
-		        String nomeProduto = produto.getNomeProduto(); 
-		        
-		        comboBoxNomeRemocao.addItem(nomeProduto);
-		        comboBoxNomeVisualizar.addItem(nomeProduto);
-		        comboBoxNomeEditar.addItem(nomeProduto);
-		    }
-	}
-		
-		private void limparCamposEdicao() {
-	        
-			// 1. Limpa o campo de unidades/estoque
-		    textFieldUnidadesEDIT.setText("");
-		    
-		    // 2. Limpa o campo de valor/preço
-		    textFieldValorEDit.setText(""); // ⬅️ Corrigido de textFieldValorEDit para o seu atributo
-
-		    // 🔑 CORREÇÃO AQUI: Use o JComboBox de EDIÇÃO!
-		    if (comboBoxNomeEditar.getItemCount() > 0) {
-		    	comboBoxNomeEditar.setSelectedIndex(0);
-		    }
-	        
+		if (listaProdutos.isEmpty()) {
+			comboBoxNomeRemocao.addItem("Nenhum produto cadastrado");
+			comboBoxNomeVisualizar.addItem("Nenhum produto cadastrado");
+			comboBoxNomeEditar.addItem("Nenhum produto cadastrado");
+			return;
 		}
-	
 
-    }
+		String itemInicial = "--- Selecione um Produto ---";
+		comboBoxNomeRemocao.addItem(itemInicial);
+		comboBoxNomeVisualizar.addItem(itemInicial);
+		comboBoxNomeEditar.addItem(itemInicial);
 
+		for (Produto produto : listaProdutos) {
+
+			String nomeProduto = produto.getNomeProduto();
+
+			comboBoxNomeRemocao.addItem(nomeProduto);
+			comboBoxNomeVisualizar.addItem(nomeProduto);
+			comboBoxNomeEditar.addItem(nomeProduto);
+		}
+	}
+
+	private void limparCamposEdicao() {
+
+		textFieldUnidadesEDIT.setText("");
+
+		textFieldValorEDit.setText("");
+
+		if (comboBoxNomeEditar.getItemCount() > 0) {
+			comboBoxNomeEditar.setSelectedIndex(0);
+		}
+
+	}
+
+}

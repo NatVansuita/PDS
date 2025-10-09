@@ -9,7 +9,6 @@ import java.util.List;
 
 import MODEL.Produto;
 
- // Adicione este import se ProdutoBBD estiver no pacote MODEL
 
 public class ProdutoControle {
 	
@@ -17,7 +16,6 @@ public class ProdutoControle {
 
     public String cadastrarNovoProduto(String nome, String tipo, String preco, String estoque) {
         
-        // 1. Validação de Entrada e Conversão
         if (nome.trim().isEmpty() || tipo.trim().isEmpty() || preco.trim().isEmpty() || estoque.trim().isEmpty()) {
             return "Erro: Todos os campos são obrigatórios.";
         }
@@ -38,10 +36,8 @@ public class ProdutoControle {
                 return "Erro: Preço deve ser positivo e Estoque não pode ser negativo.";
             }
 
-            // 2. Cria o objeto Model
             Produto novoProduto = new Produto(nome, precoo, tipo, estoquee);
             
-            // 3. Chama a camada DAO para salvar
             if (produto.cadastrarProduto(novoProduto)) {
                 return "Produto '" + nome + "' cadastrado com sucesso!";
             } 
@@ -54,21 +50,18 @@ public class ProdutoControle {
         catch (NumberFormatException e) {
             return "Erro: Preço e Quantidade devem ser números válidos.";
         }
-    } // 🔑 O MÉTODO cadastrarNovoProduto TERMINA AQUI.
+    } 
         
     
-    /**
-     * Método para listar produtos, acessível pela View.
-     */
+
     public List<Produto> listarProdutosParaView() {
-        // Apenas repassa a lista que vem do DAO
-        return produto.ListarTodosOsProdutos(); // 🔑 CORRIGI: Recomendo usar o método 'listarTodosOsProdutos' (em minúsculas/camelCase) no DAO
+        return produto.ListarTodosOsProdutos(); 
     }
     
     public String removerProdutoPorNome(String nomeProduto) {
         
-        // 1. Chama o método do DAO
-        if (produto.removerProduto(nomeProduto)) { // Assume que 'produtoDAO' é sua instância de ProdutoBBD
+       
+        if (produto.removerProduto(nomeProduto)) { 
             return "Produto '" + nomeProduto + "' removido com sucesso!";
         } 
         
@@ -78,14 +71,11 @@ public class ProdutoControle {
     }
     
     public Produto buscarProduto(String nomeProduto) {
-        // Chama o novo método do DAO
         return produto.buscarProdutoPorNome(nomeProduto);
     }
     
     
     public String atualizarProduto(String nome, String precoStr, String tipo, String estoqueStr) {
-        
-        // Validações básicas (similar ao cadastrar, mas mais simples aqui)
         if (precoStr.trim().isEmpty() || estoqueStr.trim().isEmpty()) {
             return "Erro: Preço e Estoque não podem ser vazios.";
         }
@@ -98,11 +88,9 @@ public class ProdutoControle {
                 return "Erro: Preço deve ser positivo e Estoque não pode ser negativo.";
             }
             
-            // Cria um objeto Produto (com os novos dados)
             Produto produtoAtualizado = new Produto(nome, preco, tipo, estoque);
             
-            // Chama o DAO para fazer o UPDATE
-            if (produto.atualizarProduto(produtoAtualizado)) { // Assume que 'produto' é sua instância de ProdutoBBD
+            if (produto.atualizarProduto(produtoAtualizado)) {
                 return "Produto '" + nome + "' atualizado com sucesso!";
             } else {
                 return "Erro: Falha ao atualizar no banco de dados.";
